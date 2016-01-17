@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1452985214 source:c:\users\gurip_000\desktop\jogo_forca\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<time.h>
+
