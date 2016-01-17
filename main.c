@@ -49,78 +49,99 @@ void inicializaTracos(char tracos[50]){
     }
 }
 
+char leOpcao(){
+
+    char opcao;
+
+    printf("\nJogar denovo ? diferente de n/N para sim\n");
+    scanf(" %c",&opcao);
+
+    return opcao;
+}
+
 int main()
 {
     int chances = 6,i,flag,flagResp=0;
-    char palavra[50],caracterInformado;
-    char palavras[20][50];
+    char opcao;
 
-    setaPalavras(palavras);
-    int num = randomizaPalavra();
-    //printf("num = %d\n",num);
-    //printf("palavras[num] = %s\n",palavras[num]);
-    strcpy(palavra,palavras[num]); /// copia a palavra escolhida randomicamente pra palavra que iremos jogar
+    do{
 
-    char tracos[50];
-    inicializaTracos(tracos);
+        char palavra[50],caracterInformado;
+        char palavras[20][50];
+        chances = 6;
 
-    puts("********************* Jogo da forca *********************\n");
-    puts("inicio....\n");
-    for(i=0;i<strlen(palavra);i++){ /// mostra os traços no inicio da rodada
-        printf(" %c ",tracos[i]);
-    }
-    printf("\n");
+        setaPalavras(palavras);
+        int num = randomizaPalavra();
+        //printf("num = %d\n",num);
+        //printf("palavras[num] = %s\n",palavras[num]);
+        strcpy(palavra,palavras[num]); /// copia a palavra escolhida randomicamente pra palavra que iremos jogar
 
-    while(chances > 0){ /// enquanto houverem chances
+        char tracos[50];
+        inicializaTracos(tracos);
 
-        flag=0; /// flag de controle pra saber se o user acertou o chute o não
-        flagResp = 0; /// flag para saber se o jogador venceu o jogo e para a execução caso o tenha feito
-        scanf(" "); /// ler lixo do teclado
-
-        printf("\ninforme um caracter e tecle enter\n");
-        scanf("%c",&caracterInformado);
-        caracterInformado = tolower(caracterInformado); /// deixa minuscula caso seja informado valor maiusculo
-
-        for(i=0;i<strlen(palavra);i++){ /// pra verificar se existe o char na palavra ou não
-
-            if(palavra[i] == caracterInformado){
-                tracos[i] = caracterInformado;
-                flag = 1;
-            }
-        }
-
-        printf("\n");
-        for(i=0;i<strlen(palavra);i++){ /// mostrar o desempenho do jogador
-
+        puts("********************* Jogo da forca *********************\n");
+        puts("inicio....\n");
+        for(i=0;i<strlen(palavra);i++){ /// mostra os traços no inicio da rodada
             printf(" %c ",tracos[i]);
+        }
+        printf("\n");
 
-            if(tracos[i]!=palavra[i]){
+        while(chances > 0){ /// enquanto houverem chances
 
-                flagResp = 1;
+            flag=0; /// flag de controle pra saber se o user acertou o chute o não
+            flagResp = 0; /// flag para saber se o jogador venceu o jogo e para a execução caso o tenha feito
+            scanf(" "); /// ler lixo do teclado
+
+            printf("\ninforme um caracter e tecle enter\n");
+            scanf("%c",&caracterInformado);
+            caracterInformado = tolower(caracterInformado); /// deixa minuscula caso seja informado valor maiusculo
+
+            for(i=0;i<strlen(palavra);i++){ /// pra verificar se existe o char na palavra ou não
+
+                if(palavra[i] == caracterInformado){
+                    tracos[i] = caracterInformado;
+                    flag = 1;
+                }
+            }
+
+            printf("\n");
+            for(i=0;i<strlen(palavra);i++){ /// mostrar o desempenho do jogador
+
+                printf(" %c ",tracos[i]);
+
+                if(tracos[i]!=palavra[i]){
+
+                    flagResp = 1;
+                }
+            }
+            printf("\n");
+
+            if(flagResp==0){
+                printf("VOCE GANHOU! PARABENS!\n");
+                printf(" \\O/\n  | \n  /\\");
+                break;
+            }
+
+            if(flag==0){ /// se errar o chute entra aqui
+                chances--;
+                printf("\n------MENOS UMA CHANCE -- RESTAM %d------\n",chances);
+                printf("\ninforme um caracter e tecle enter\n");
             }
         }
-        printf("\n");
 
-        if(flagResp==0){
-            printf("VOCE GANHOU! PARABENS!\n");
-            printf(" \\O/\n  | \n  /\\");
-            break;
+        if(chances==0){ /// perdeu entra aqui
+
+            printf("\n------VOCE FOI ENFORCADO!!!------\n\n--]\n  |\n  |\n  |\n \\O/\n  |\n  /\\");
+            printf("\n");
+            printf("A PALAVRA CERTA ERA --->>>> %s",palavra);
+            printf("\n");
+            opcao = leOpcao();
         }
 
-        if(flag==0){ /// se errar o chute entra aqui
-            chances--;
-            printf("\n------MENOS UMA CHANCE -- RESTAM %d------\n",chances);
-            printf("\ninforme um caracter e tecle enter\n");
-        }
-    }
-
-    if(chances==0){ /// perdeu entra aqui
-
-        printf("\n------VOCE FOI ENFORCADO!!!------\n\n--]\n  |\n  |\n  |\n \\O/\n  |\n  /\\");
         printf("\n");
-        printf("A PALAVRA CERTA ERA --->>>> %s",palavra);
-    }
-    printf("\n");
+        opcao = leOpcao();
+
+    }while(opcao!='n' && opcao!='N');
     system("pause");
     return 0;
 }
